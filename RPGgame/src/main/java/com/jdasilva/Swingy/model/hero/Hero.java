@@ -1,7 +1,5 @@
 package com.jdasilva.Swingy.model.hero;
 
-import com.jdasilva.Swingy.view.ConsoleView;
-
 public class Hero {
     private String name;
     private HeroClass heroClass;
@@ -10,6 +8,7 @@ public class Hero {
     private int attack;
     private int defense;
     private int hitPoints;
+    private int life;
     private Artifact Weapon;
     private Artifact Armor;
     private Artifact Helm;
@@ -22,6 +21,7 @@ public class Hero {
         this.attack = heroClass.getAttack();
         this.defense = heroClass.getDefense();
         this.hitPoints = heroClass.getHitPoints();
+        this.life = hitPoints;
         this.Weapon = null;
         this.Armor = null;
         this.Helm = null;
@@ -67,23 +67,32 @@ public class Hero {
         return hitPoints;
     }
 
+    public int getLife() {
+        return life;
+    }
+
     public int takeDamage(int damage) {
-        hitPoints -= damage;
+        life -= damage;
         return hitPoints;
     }
 
     public boolean isDead() {
-        return hitPoints <= 0;
+        return life <= 0;
+    }
+
+    public void resetLife()
+    {
+        this.life = hitPoints;
     }
 
     public void setLevel(int level) {
         this.level = level;
     }
 
-    public void setExperience(int experience, ConsoleView view) {
+    public boolean setExperience(int experience) {
         
         if (this.level >= 5) {
-            return;
+            return false;
         }
 
         this.experience += experience;
@@ -93,8 +102,9 @@ public class Hero {
             this.attack += 5;
             this.defense += 5;
             this.hitPoints += 25;
-            view.Levelup(this);
+            return true;
         }
+        return false;
     }
 
     public void equipArtifact(Artifact artifact){

@@ -13,12 +13,13 @@ public class GameController {
     private ConsoleView view;
     private Hero hero;
     private Gamemap map;
-    private boolean Win = false;
+    private boolean Win;
     
     public GameController() {
         view = new ConsoleView();
-        hero = new Hero("john", HeroClass.WARRIOR);
+        hero = new Hero("John", HeroClass.WARRIOR);
         map = new Gamemap(hero.getLevel());
+        Win = false;
     }
     
     public void startGame() {
@@ -35,13 +36,17 @@ public class GameController {
     {
         if (hero.isDead())
         {
-            view.GameOver();
+            hero.resetLife();
+            map.resetHeroPosition();
+            view.gameOver();
             return false;
         }
         if (Win)
         {
-            view.displayMessage("You have reached the edge of the map!");
-            view.displayMessage("You have won the game!");
+            hero.resetLife();
+            map.resetHeroPosition();
+            Win = false;
+            view.win();
             return false;
         }
         return true;
@@ -59,6 +64,7 @@ public class GameController {
         return Math.random() < 0.5;
     }
 
+    
     public void Battle(Enemy enemy) {
         String input;
         view.showEnemy(enemy);
@@ -76,12 +82,13 @@ public class GameController {
                 int herodamage = Math.max(0, enemy.getAttack() - hero.getDefense());
                 hero.takeDamage(herodamage);
                 view.displayMessage(enemy.getName() + " has inflicted " + herodamage + " damage to you");
+                view.displayMessage("");
             }
         }
 
         while (!hero.isDead() && !enemy.isDead()) {
-            view.HeroLife(hero);
-            view.EnemyLife(enemy);
+            view.heroLife(hero);
+            view.enemyLife(enemy);
             if (input.equals("1") || input.equals("2")) {
                 int enemydamage = hero.getAttack();
                 enemy.takeDamage(enemydamage);
@@ -94,6 +101,7 @@ public class GameController {
                     hero.takeDamage(herodamage);
                     view.displayMessage(enemy.getName() + " has inflicted " + herodamage + " damage to you");
                 }
+                view.displayMessage("");
             }
             try {
                 Thread.sleep(1000);
@@ -104,7 +112,8 @@ public class GameController {
 
         if(!hero.isDead()){
             view.displayMessage("You have defeated " + enemy.getName());
-            hero.setExperience(enemy.getExperience(), view);
+            if(hero.setExperience(enemy.getExperience()))
+                view.levelup(hero);
             if(artifactFound()){
                 Artifact artifact = enemy.getArtifact();
                 view.showArtifactFound(artifact);
@@ -115,6 +124,8 @@ public class GameController {
                     view.displayMessage(hero.toString());
                 }
             }
+        }else{
+            view.displayMessage("You have been defeated by " + enemy.getName());
         }
     }
 
@@ -124,21 +135,21 @@ public class GameController {
 
     private boolean moveHero(Gamemap map) {
         String dir;
-        view.displayMap(map.getMap());
+        view.displayMap(map.getMap(), map.getVisited());
         do{
             view.showDirectionOptions();
             dir = view.getInput();
-        } while (!dir.equals("n") && !dir.equals("e") && !dir.equals("s") && !dir.equals("w"));
+        } while (!dir.equalsIgnoreCase("N") && !dir.equalsIgnoreCase("E") && !dir.equalsIgnoreCase("S") && !dir.equalsIgnoreCase("W"));
 
-        if(!map.moveHero(dir)){
+        if(map.moveHero(dir)){
             if(enemyFound()){
                 Enemy enemy = EnemyFactoy.CreateEnemy(hero.getLevel());
                 enemy.initializeArtifacts(hero, new ArtifactManager());
                 Battle(enemy);
             }
-        } else {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
+
 }
