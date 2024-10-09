@@ -23,7 +23,7 @@ public class GameControllerGUI  extends GameControllerBase{
 
     @Override
     protected boolean moveHero(Gamemap map){
-        view.updateMap(map.getMap(), map.getVisited());
+        view.displayMap(map.getMap(), map.getVisited());
         String direction = view.getDirection();
         return moveMap(direction);
     }

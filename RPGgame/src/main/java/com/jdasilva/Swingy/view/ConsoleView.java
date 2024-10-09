@@ -6,7 +6,7 @@ import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import com.jdasilva.Swingy.model.hero.Hero;
 
-public class ConsoleView {
+public class ConsoleView implements GameView {
 
     private Scanner scanner;
 
@@ -78,6 +78,7 @@ public class ConsoleView {
 
         System.out.println("You have won!");
     }
+    
     public void levelup(Hero hero){
         System.out.println();
         System.out.println("🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊");

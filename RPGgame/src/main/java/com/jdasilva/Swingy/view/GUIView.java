@@ -10,7 +10,7 @@ import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import java.net.URL;
 
-public class GUIView extends JFrame{
+public class GUIView extends JFrame implements GameView{
     private JLabel heroStatsLabel, enemyStatsLabel;
     private JLabel heroImageLabel, enemyImageLabel;
     private JProgressBar heroLifeBar, enemyLifeBar;
@@ -105,7 +105,7 @@ public class GUIView extends JFrame{
         setVisible(true);
     }
 
-    public void updateMap(char[][] map, boolean[][] visited){
+    public void displayMap(char[][] map, boolean[][] visited){
         for(int i = 0; i < map.length; i++){
             for(int j = 0; j < map[i].length; j++){
                 if(map[i][j] == 'P'){
