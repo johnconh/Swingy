@@ -88,7 +88,9 @@ public class GameControllerTerminal extends GameControllerBase {
         if(!hero.isDead()){
             view.displayMessage("You have defeated " + enemy.getName());
             if(hero.setExperience(enemy.getExperience()))
+            {
                 view.levelup(hero);
+            }
             if(artifactFound()){
                 Artifact artifact = enemy.getArtifact();
                 view.showArtifactFound(artifact);

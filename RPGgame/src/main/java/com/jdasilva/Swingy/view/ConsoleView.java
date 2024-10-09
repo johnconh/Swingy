@@ -47,7 +47,7 @@ public class ConsoleView {
     }
 
     public void enemyLife(Enemy enemy){
-        System.out.println(enemy.getName() + " life: " + enemy.getHitPoints());
+        System.out.println(enemy.getName() + " life: " + enemy.getLife());
     }
 
     public void showArtifactFound(Artifact artifact){
@@ -80,11 +80,13 @@ public class ConsoleView {
     }
     public void levelup(Hero hero){
         System.out.println();
+        System.out.println("🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊");
         System.out.println("Congratulations! You have leveled up to level " + hero.getLevel());
         System.out.println("Your stats have been increased!");
         System.out.println("Attack: " + hero.getAttack());
         System.out.println("Defense: " + hero.getDefense());
         System.out.println("Hit Points: " + hero.getHitPoints());
+        System.out.println("🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊🟊");
         System.out.println();
     }
 

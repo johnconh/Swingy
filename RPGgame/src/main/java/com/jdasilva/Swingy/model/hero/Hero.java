@@ -12,6 +12,7 @@ public class Hero {
     private Artifact Weapon;
     private Artifact Armor;
     private Artifact Helm;
+    private String image;
 
     public Hero(String name, HeroClass heroClass) {
         this.name = name;
@@ -25,8 +26,13 @@ public class Hero {
         this.Weapon = null;
         this.Armor = null;
         this.Helm = null;
+        this.image = heroClass.getImage();
     }
 
+    public String getImage() {
+        return image;
+    }
+    
     public Artifact getWeapon() {
         return Weapon;
     }

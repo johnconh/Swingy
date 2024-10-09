@@ -1,19 +1,20 @@
 package com.jdasilva.Swingy.view;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import com.jdasilva.Swingy.controller.GameControllerGUI;
 import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.hero.Artifact;
+import java.net.URL;
 
 public class GUIView extends JFrame{
-    private JLabel heroStatsLabel;
-    private JLabel enemyStatsLabel;
+    private JLabel heroStatsLabel, enemyStatsLabel;
+    private JLabel heroImageLabel, enemyImageLabel;
+    private JProgressBar heroLifeBar, enemyLifeBar;
+    private JPanel enemyPanel;
     private JLabel[][] mapLabels;
     private JPanel mapPanel;
     private JButton northButton, eastButton, southButton, westButton;
@@ -29,9 +30,38 @@ public class GUIView extends JFrame{
     private void initGUI()
     {
         setTitle("Swingy - GUI");
-        setSize(800, 800);
+        setSize(1000, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        JPanel heroPanel = new JPanel();
+        heroPanel.setLayout(new BoxLayout(heroPanel, BoxLayout.Y_AXIS));
+        heroImageLabel = new JLabel();
+        heroLifeBar = new JProgressBar();
+        heroLifeBar.setStringPainted(true);
+        heroLifeBar.setForeground(Color.GREEN);
+        heroLifeBar.setBackground(Color.RED);
+        heroStatsLabel = new JLabel();
+        heroPanel.add(heroImageLabel);
+        heroPanel.add(heroLifeBar);
+        heroPanel.add(heroStatsLabel);
+        add(heroPanel, BorderLayout.WEST);
+        heroPanel.revalidate();
+        heroPanel.repaint();
+
+        enemyPanel = new JPanel();
+        enemyPanel.setLayout(new BoxLayout(enemyPanel, BoxLayout.Y_AXIS));
+        enemyImageLabel = new JLabel();
+        enemyLifeBar = new JProgressBar();
+        enemyLifeBar.setStringPainted(true);
+        enemyLifeBar.setForeground(Color.GREEN);
+        enemyLifeBar.setBackground(Color.RED);
+        enemyStatsLabel = new JLabel();
+        enemyPanel.add(enemyImageLabel);
+        enemyPanel.add(enemyLifeBar);
+        enemyPanel.add(enemyStatsLabel);
+        enemyPanel.setVisible(false);
+        add(enemyPanel, BorderLayout.EAST);
 
         mapPanel = new JPanel();
         mapPanel.setLayout(new GridLayout(controller.getSizeMap(), controller.getSizeMap()));
@@ -69,7 +99,7 @@ public class GUIView extends JFrame{
         controlPanel.add(southButton); 
         add(controlPanel, BorderLayout.SOUTH);
 
-        heroStatsLabel = new JLabel("Hero Stats", SwingConstants.CENTER);
+        heroStatsLabel = new JLabel();
         add(heroStatsLabel, BorderLayout.NORTH);
 
         setVisible(true);
@@ -78,24 +108,104 @@ public class GUIView extends JFrame{
     public void updateMap(char[][] map, boolean[][] visited){
         for(int i = 0; i < map.length; i++){
             for(int j = 0; j < map[i].length; j++){
-                if(visited[i][j]){
+                if(map[i][j] == 'P'){
                     mapLabels[i][j].setText("P");
                     mapLabels[i][j].setBackground(Color.GREEN);
-                }else if (map[i][j] == 'X'){
+                }else if (visited[i][j]){
                     mapLabels[i][j].setText("X");
                     mapLabels[i][j].setBackground(Color.RED);
                 } else {
-                    mapLabels[i][j].setText("X");
                     mapLabels[i][j].setBackground(Color.WHITE);
                 }
             }
         }
     }
-
-    public void showEnemy(Enemy enemy){
-        JOptionPane.showMessageDialog(this, "Enemy: " + enemy.getName());
+    
+    public void initializeHero(Hero hero){
+        setHeroImage(hero.getImage());
+        updateHeroLifeBar(hero.getLife(), hero.getHitPoints());
+        updateHeroStats(hero);
     }
 
+    public void initializeEnemy(Enemy enemy){
+        setEnemyImage(enemy.getImage());
+        updateEnemyLifeBar(enemy.getLife(), enemy.getHitPoints());
+        updateEnemyStats(enemy);
+        enemyPanel.setVisible(true);
+    }
+
+    public void hideEnemyPanel(){
+        enemyPanel.setVisible(false);
+    }
+
+    public void setHeroImage(String path){
+        URL imageURL = getClass().getResource(path);
+        if(imageURL == null){
+            System.err.println("Image not found " + path);
+            return;
+        }
+
+        ImageIcon icon = new ImageIcon(imageURL);
+        Image img = icon.getImage();
+        int width = img.getWidth(null);
+        int height = img.getHeight(null);
+        Image newImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        icon = new ImageIcon(newImg);
+        heroImageLabel.setIcon(icon);
+        enemyImageLabel.setPreferredSize(new Dimension(width, height));
+        enemyImageLabel.setMinimumSize(new Dimension(width, height));
+        heroImageLabel.revalidate();
+        heroImageLabel.repaint();
+    }
+    
+    public void setEnemyImage(String path){
+        URL imgURL = getClass().getResource(path);
+        if (imgURL == null) {
+            System.err.println("Couldn't find file: " + path);
+            return;
+        }
+
+        ImageIcon icon = new ImageIcon(imgURL);
+        Image img = icon.getImage();
+        int width = img.getWidth(null);
+        int height = img.getHeight(null);
+        Image newImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        icon = new ImageIcon(newImg);
+        enemyImageLabel.setIcon(icon);
+        enemyImageLabel.setPreferredSize(new Dimension(width, height));
+        enemyImageLabel.setMinimumSize(new Dimension(width, height));
+        enemyImageLabel.revalidate();
+        enemyImageLabel.repaint();
+    }
+
+    public void updateHeroLifeBar(int life, int maxLife){
+        int health = (int)((life / (double)maxLife) * 100);
+        heroLifeBar.setValue(health);
+    }
+
+    public void updateEnemyLifeBar(int life, int maxLife){
+        int health = (int)((life / (double)maxLife) * 100);
+        enemyLifeBar.setValue(health);
+    }
+
+    public void updateHeroStats(Hero hero){
+        String stats = "<html>" 
+                        + hero.getName() + " Lvl: " + hero.getLevel() + "<br>"
+                        + "Attack: " + hero.getAttack() + "<br>"
+                        + "Defense: " + hero.getDefense() + "<br>"
+                        + "Helm: " + hero.getHelm() + "<br>"
+                        + "Armor: " + hero.getArmor() + "<br>"
+                        + "Weapon: " + hero.getWeapon() + "<html>";
+
+        heroStatsLabel.setText(stats);
+    }
+
+    public void updateEnemyStats(Enemy enemy){
+        enemyStatsLabel.setText(enemy.getName());
+    }
+    
     public String getBattleAction(){
         Object[] options = {"Fight", "Run"};
         int choice = JOptionPane.showOptionDialog(this, "Choose your action", "Battle", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
@@ -105,15 +215,6 @@ public class GUIView extends JFrame{
 
     public void displayMessage(String message){
         JOptionPane.showMessageDialog(this, message);
-    }
-
-    public void heroLife(Hero hero){
-        heroStatsLabel.setText("Hero Life: " + hero.getLife());
-    }
-
-    public void enemyLife(Enemy enemy){
-        enemyStatsLabel = new JLabel("Enemy Stats", SwingConstants.CENTER);
-        enemyStatsLabel.setText("Enemy Life: " + enemy.getHitPoints());
     }
 
     public void gameOver(){
@@ -145,10 +246,6 @@ public class GUIView extends JFrame{
 
     public void equipArtifact(Artifact artifact){
         JOptionPane.showMessageDialog(this, "You have equipped " + artifact.getName());
-    }
-
-    public void heroStats(Hero hero){
-        JOptionPane.showMessageDialog(this, hero.toString());
     }
 
     public String getDirection(){

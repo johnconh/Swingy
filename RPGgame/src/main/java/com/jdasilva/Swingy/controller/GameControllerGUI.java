@@ -12,6 +12,8 @@ public class GameControllerGUI  extends GameControllerBase{
     public GameControllerGUI(Hero hero){
         super(hero);
         view = new GUIView(this);
+
+        view.initializeHero(hero);
     }
 
     public int getSizeMap(){
@@ -39,10 +41,10 @@ public class GameControllerGUI  extends GameControllerBase{
     @Override
     protected void BattleSequence(Enemy enemy)
     {
-        view.showEnemy(enemy);
+        view.initializeEnemy(enemy);
         String action = view.getBattleAction();
 
-        if(action.equals("Run"))
+        if(action.equalsIgnoreCase("Run"))
         {
             if (run())
             {
@@ -52,49 +54,59 @@ public class GameControllerGUI  extends GameControllerBase{
                 view.displayMessage("You failed to run away!");
                 int herodamage = Math.max(0, enemy.getAttack() - hero.getDefense());
                 hero.takeDamage(herodamage);
-                view.displayMessage(enemy.getName() + " has inflicted " + herodamage + " damage to you");
-            }
-
-            while(!hero.isDead() && !enemy.isDead())
-            {
-                view.heroLife(hero);
-                view.enemyLife(enemy);
-
-                if(action.equals("Run") || action.equals("Fight"))
-                {
-                    int enemydamage = hero.getAttack();
-                    enemy.takeDamage(enemydamage);
-                    view.displayMessage("You have inflicted " + enemydamage + " damage to " + enemy.getName());
-                    if(enemy.isDead()){
-                        break;
-                    }else{
-                        int herodamage = Math.max(0, enemy.getAttack() - hero.getDefense());
-                        hero.takeDamage(herodamage);
-                        view.displayMessage(enemy.getName() + " has inflicted " + herodamage + " damage to you");
-                    }
-                }
-            }
-
-            if(!hero.isDead())
-            {
-                view.displayMessage("You have defeated " + enemy.getName());
-                if(hero.setExperience(enemy.getExperience()))
-                    view.levelup(hero);
-                if(artifactFound())
-                {
-                    Artifact artifact = enemy.getArtifact();
-                    view.showArtifactFound(artifact);
-                    if(view.wantstoCollectArtifact())
-                    {
-                        hero.equipArtifact(artifact);
-                        view.equipArtifact(artifact);
-                        view.heroStats(hero);
-                    }
-                }
-            }else
-            {
-                view.displayMessage("You have been defeated by " + enemy.getName());
+                view.updateHeroLifeBar(hero.getLife(), hero.getHitPoints());
             }
         }
+
+        while(!hero.isDead() && !enemy.isDead())
+        {
+            view.updateHeroStats(hero);
+            view.updateEnemyStats(enemy);
+
+            if(action.equalsIgnoreCase("Run") || action.equalsIgnoreCase("Fight"))
+            {
+                int enemydamage = hero.getAttack();
+                enemy.takeDamage(enemydamage);
+                view.updateEnemyLifeBar(enemy.getLife(), enemy.getHitPoints());
+                if(enemy.isDead()){
+                    break;
+                }else{
+                    int herodamage = Math.max(0, enemy.getAttack() - hero.getDefense());
+                    hero.takeDamage(herodamage);
+                    view.updateHeroLifeBar(hero.getLife(), hero.getHitPoints());
+                }
+            }
+            try{
+                Thread.sleep(1000);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+
+        if(!hero.isDead())
+        {
+            view.displayMessage("You have defeated " + enemy.getName());
+            if(hero.setExperience(enemy.getExperience()))
+            {
+                view.levelup(hero);
+                view.updateHeroStats(hero);
+            }
+            if(artifactFound())
+            {
+                Artifact artifact = enemy.getArtifact();
+                view.showArtifactFound(artifact);
+                if(view.wantstoCollectArtifact())
+                {
+                    hero.equipArtifact(artifact);
+                    view.equipArtifact(artifact);
+                    view.updateHeroStats(hero);
+                }
+            }
+        }else
+        {
+            view.displayMessage("You have been defeated by " + enemy.getName());
+        }
+        view.hideEnemyPanel();
     }
+
 }
