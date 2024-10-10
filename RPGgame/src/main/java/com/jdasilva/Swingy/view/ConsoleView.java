@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import com.jdasilva.Swingy.model.hero.Hero;
+import com.jdasilva.Swingy.model.hero.HeroClass;
 
 public class ConsoleView implements GameView {
 
@@ -110,5 +111,39 @@ public class ConsoleView implements GameView {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public String getCharacterChoice(){
+        System.out.println("Do you want to create a new hero or load a saved hero?");
+        System.out.println("Create");
+        System.out.println("Load");
+        String choice = scanner.nextLine();
+        return choice;
+    }
+
+    public String getHeroName(){
+        System.out.println("Enter your hero name: ");
+        String name = scanner.nextLine();
+        return name;
+    }
+
+    public HeroClass getHeroClass(){
+
+        System.out.println("Choose your hero class: ");
+        System.out.println("1. Warrior");
+        System.out.println("2. Paladin");
+        System.out.println("3. Rogue");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        switch(choice){
+            case 1:
+                return HeroClass.WARRIOR;
+            case 2:
+                return HeroClass.PALADIN;
+            case 3:
+                return HeroClass.ROGUE;
+            default:
+                return HeroClass.WARRIOR;
+        }
     }
 }

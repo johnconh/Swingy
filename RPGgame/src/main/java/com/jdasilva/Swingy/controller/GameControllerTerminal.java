@@ -3,15 +3,29 @@ package com.jdasilva.Swingy.controller;
 import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import com.jdasilva.Swingy.model.hero.Hero;
+import com.jdasilva.Swingy.model.hero.HeroClass;
 import com.jdasilva.Swingy.model.map.Gamemap;
 import com.jdasilva.Swingy.view.ConsoleView;
 
 public class GameControllerTerminal extends GameControllerBase {
    private ConsoleView view;
 
-    public GameControllerTerminal(Hero hero){
-        super(hero);
+    public GameControllerTerminal(){
+        super();
         view = new ConsoleView();
+        initializeGame();
+    }
+
+    @Override
+    protected String getCharacterChoice(){
+        return view.getCharacterChoice();
+    }
+
+    @Override
+    protected Hero createNewHero(){
+        String name = view.getHeroName();
+        HeroClass heroClass = view.getHeroClass();
+        return new Hero(name, heroClass);
     }
 
     @Override

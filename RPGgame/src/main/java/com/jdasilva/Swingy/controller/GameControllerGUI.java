@@ -3,22 +3,37 @@ package com.jdasilva.Swingy.controller;
 import com.jdasilva.Swingy.view.GUIView;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import com.jdasilva.Swingy.model.hero.Hero;
+import com.jdasilva.Swingy.model.hero.HeroClass;
 import com.jdasilva.Swingy.model.map.Gamemap;
 import com.jdasilva.Swingy.model.enemy.Enemy;
 
 public class GameControllerGUI  extends GameControllerBase{
     private GUIView view;
 
-    public GameControllerGUI(Hero hero){
-        super(hero);
+    public GameControllerGUI(){
+        super(); 
+       
         view = new GUIView(this);
-
+        initializeGame();
         view.initializeHero(hero);
+
     }
 
     public int getSizeMap(){
 
         return map.getSize();
+    }
+
+    @Override
+    protected String getCharacterChoice(){
+        return view.getCharacterChoice();
+    }
+
+    @Override
+    protected Hero createNewHero(){
+        String name = view.getHeroName();
+        HeroClass heroClass = view.getHeroClass();
+        return new Hero(name, heroClass);
     }
 
     @Override

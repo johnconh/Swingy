@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import com.jdasilva.Swingy.controller.GameControllerGUI;
 import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.hero.Hero;
+import com.jdasilva.Swingy.model.hero.HeroClass;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import java.net.URL;
 
@@ -283,4 +284,32 @@ public class GUIView extends JFrame implements GameView{
             setDirection(direction);
         }
     }
+
+    public String getCharacterChoice(){
+        Object[] options = {"Create", "Load"};
+        int choice = JOptionPane.showOptionDialog(this, "Choose your character", "Character", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        return (choice == 0) ? "Create" : "Load";
+    }
+
+    public String getHeroName(){
+        return JOptionPane.showInputDialog(this, "Enter your hero name", "Hero Name", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public HeroClass getHeroClass(){
+        Object[] options = {"Warrior", "Paladin", "Rogue"};
+        int choice = JOptionPane.showOptionDialog(this, "Choose your hero class", "Hero Class", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        switch(choice){
+            case 0:
+                return HeroClass.WARRIOR;
+            case 1:
+                return HeroClass.PALADIN;
+            case 2:
+                return HeroClass.ROGUE;
+            default:
+                return null;
+        }
+    }
+
 }

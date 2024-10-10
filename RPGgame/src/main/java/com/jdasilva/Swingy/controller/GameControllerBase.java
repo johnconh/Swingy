@@ -12,10 +12,26 @@ public abstract class GameControllerBase {
     protected Gamemap map;
 
 
-    public GameControllerBase(Hero hero) {
-        this.hero = hero;
-        this.map = new Gamemap(hero.getLevel());
+    public GameControllerBase() {
         this.win = false;
+    }
+
+    public void initializeGame(){
+        String choice = getCharacterChoice();
+        do{
+            if(choice.equalsIgnoreCase("Create")){
+                this.hero = createNewHero();
+            }
+            else if(choice.equalsIgnoreCase("Load")){
+                return;
+            }
+        }while(this.hero == null);
+        this.map = new Gamemap(hero.getLevel());
+        if(this.hero != null){
+            startGame(); 
+        }else{
+            System.out.println("No created hero found");
+        }
     }
 
     public void startGame() {
@@ -26,6 +42,8 @@ public abstract class GameControllerBase {
         }
     }
 
+    protected abstract String getCharacterChoice();
+    protected abstract Hero createNewHero();
     protected abstract boolean moveHero(Gamemap map);
 
     protected void resetGame() {
