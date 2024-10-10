@@ -114,36 +114,57 @@ public class ConsoleView implements GameView {
     }
 
     public String getCharacterChoice(){
-        System.out.println("Do you want to create a new hero or load a saved hero?");
-        System.out.println("Create");
-        System.out.println("Load");
-        String choice = scanner.nextLine();
-        return choice;
+        while(true){
+            System.out.println("Do you want to create a new hero or load a saved hero?");
+            System.out.println("Create");
+            System.out.println("Load");
+            String choice = scanner.nextLine();
+            if (choice.equalsIgnoreCase("Create") || choice.equalsIgnoreCase("Load"))
+                return choice;
+            else
+                System.out.println("Invalid choice. Please type 'Create' or 'Load'");
+        }
+      
     }
 
     public String getHeroName(){
-        System.out.println("Enter your hero name: ");
-        String name = scanner.nextLine();
-        return name;
+        while(true){
+            System.out.println("Enter your hero name: ");
+            String name = scanner.nextLine().trim();
+            if(!name.isEmpty()){
+                return name;    
+            }
+        }
     }
 
     public HeroClass getHeroClass(){
+        while(true){
+            System.out.println("Choose your hero class: ");
+            System.out.println("1. Warrior");
+            System.out.println("2. Paladin");
+            System.out.println("3. Rogue");
 
-        System.out.println("Choose your hero class: ");
-        System.out.println("1. Warrior");
-        System.out.println("2. Paladin");
-        System.out.println("3. Rogue");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch(choice){
-            case 1:
-                return HeroClass.WARRIOR;
-            case 2:
-                return HeroClass.PALADIN;
-            case 3:
-                return HeroClass.ROGUE;
-            default:
-                return HeroClass.WARRIOR;
+            if(scanner.hasNextInt()){
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+                if(choice < 1 || choice > 3){
+                    System.out.println("Invalid input. Please enter a number between 1 and 3");
+                    continue;
+                }
+                switch(choice){
+                    case 1:
+                        return HeroClass.WARRIOR;
+                    case 2:
+                        return HeroClass.PALADIN;
+                    case 3:
+                        return HeroClass.ROGUE;
+                    default:
+                        return HeroClass.WARRIOR;
+                }
+            }else{
+                scanner.nextLine();
+                System.out.println("Invalid input. Please enter a number between 1 and 3");
+            }
         }
     }
 }

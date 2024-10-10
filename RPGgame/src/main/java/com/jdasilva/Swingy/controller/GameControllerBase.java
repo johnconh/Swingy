@@ -11,27 +11,20 @@ public abstract class GameControllerBase {
     protected boolean win;
     protected Gamemap map;
 
-
     public GameControllerBase() {
         this.win = false;
     }
 
     public void initializeGame(){
         String choice = getCharacterChoice();
-        do{
-            if(choice.equalsIgnoreCase("Create")){
-                this.hero = createNewHero();
-            }
-            else if(choice.equalsIgnoreCase("Load")){
-                return;
-            }
-        }while(this.hero == null);
-        this.map = new Gamemap(hero.getLevel());
-        if(this.hero != null){
-            startGame(); 
-        }else{
-            System.out.println("No created hero found");
+        if(choice.equalsIgnoreCase("Create")){
+            this.hero = createNewHero();
         }
+        else if(choice.equalsIgnoreCase("Load")){
+            return;
+        }
+        this.map = new Gamemap(hero.getLevel());
+        startGame(); 
     }
 
     public void startGame() {
