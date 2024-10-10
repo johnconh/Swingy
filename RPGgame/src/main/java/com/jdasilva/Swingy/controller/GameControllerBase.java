@@ -30,9 +30,10 @@ public abstract class GameControllerBase {
     public void startGame() {
         while (gameStatus()) {
             if (!moveHero(map)) {
-                win = true;
+                this.win = true;
             }
         }
+        System.out.println(this.win);
     }
 
     protected abstract String getCharacterChoice();
@@ -41,6 +42,7 @@ public abstract class GameControllerBase {
 
     protected void resetGame() {
         hero.resetLife();
+        this.map = new Gamemap(hero.getLevel());
         map.resetHeroPosition();
     }
 
@@ -52,7 +54,7 @@ public abstract class GameControllerBase {
         }
         if (win) {
             resetGame();
-            win = false;
+            this.win = false;
             showWin();
             return false;
         }

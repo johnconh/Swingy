@@ -7,8 +7,8 @@ public class App
 {
     public static void main( String[] args)
     {
-        GameControllerTerminal game = new GameControllerTerminal();
+        new GameControllerTerminal();
         //GameControllerGUI game = new GameControllerGUI();
-        game.startGame();
+        return;
     }
 }
