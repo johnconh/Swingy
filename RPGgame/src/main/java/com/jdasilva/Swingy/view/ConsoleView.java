@@ -77,7 +77,6 @@ public class ConsoleView implements GameView {
     }
 
     public void win(){
-
         System.out.println("You have won!");
     }
     

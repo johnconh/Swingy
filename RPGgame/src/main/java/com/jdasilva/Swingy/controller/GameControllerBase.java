@@ -35,7 +35,6 @@ public abstract class GameControllerBase {
                 this.win = true;
             }
         }
-        System.out.println(this.win);
     }
     
     protected abstract String getCharacterChoice();
