@@ -175,6 +175,10 @@ public class ConsoleView implements GameView {
             System.out.println("Enter the name of the hero file to load (e.g., John_WARRIOR.json): ");
             filename = scanner.nextLine().trim();
 
+            if(filename.equalsIgnoreCase("exit")){
+                return null;
+            }
+
             File file = new File(filename);
             
             if(!filename.isEmpty() &&file.exists() && !file.isDirectory()){

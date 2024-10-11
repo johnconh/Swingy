@@ -34,7 +34,10 @@ public class GameControllerTerminal extends GameControllerBase {
     @Override
     protected Hero selectLoadHero(){
         String file = view.askForFile();
-
+        if(file == null){
+            view.displayMessage("No file selected");
+            initializeGame();
+        }
         if(!file.trim().isEmpty()){
             return Hero.loadHero(file);
         }else{
