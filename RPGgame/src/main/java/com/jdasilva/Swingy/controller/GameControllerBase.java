@@ -35,14 +35,16 @@ public abstract class GameControllerBase {
                 this.win = true;
             }
         }
+        retryGame();
     }
     
     protected abstract String getCharacterChoice();
     protected abstract Hero createNewHero();
     protected abstract Hero selectLoadHero();
     protected abstract boolean moveHero(Gamemap map);
+    protected abstract void retryGame();
 
-    protected void resetGame() {
+    public void resetGame() {
         hero.resetLife();
         this.map = new Gamemap(hero.getLevel());
         map.resetHeroPosition();

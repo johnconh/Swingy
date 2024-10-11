@@ -149,4 +149,9 @@ public class GameControllerGUI  extends GameControllerBase{
         view.hideEnemyPanel();
         hero.saveHero();
     }
+
+    @Override
+    protected void retryGame(){
+        view.dispose();
+    }
 }

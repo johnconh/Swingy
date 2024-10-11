@@ -52,7 +52,7 @@ public class GameControllerTerminal extends GameControllerBase {
         do{
             view.showDirectionOptions();
             dir = view.getInput();
-        } while(!dir.equals("N") && !dir.equals("E") && !dir.equals("S") && !dir.equals("W"));
+        } while(!dir.equalsIgnoreCase("N") && !dir.equalsIgnoreCase("E") && !dir.equalsIgnoreCase("S") && !dir.equalsIgnoreCase("W"));
         
         return moveMap(dir);
     }
@@ -137,7 +137,23 @@ public class GameControllerTerminal extends GameControllerBase {
         hero.saveHero();
     }
 
+    @Override
+    protected void retryGame(){
+        do{
+            view.displayMessage("Do you want to play again? (y/n)");
+            String input = view.getInput();
+            if(input.equalsIgnoreCase("y")){
+                startGame();
+            }else if(input.equalsIgnoreCase("n")){
+                view.displayMessage("Goodbye!");
+                close();
+                System.exit(0);
+            }
+        } while(true);
+    }
+
     public void close(){
         view.closeScanner();
+        startGame();
     }
 }
