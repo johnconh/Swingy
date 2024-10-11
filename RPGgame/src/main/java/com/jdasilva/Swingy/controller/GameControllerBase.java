@@ -21,9 +21,12 @@ public abstract class GameControllerBase {
             this.hero = createNewHero();
         }
         else if(choice.equalsIgnoreCase("Load")){
-            return;
+            this.hero = selectLoadHero();
+            if(this.hero == null){
+                initializeGame();
+            }
         }
-        this.map = new Gamemap(hero.getLevel());
+        this.map = new Gamemap(this.hero.getLevel());
     }
 
     public void startGame() {
@@ -34,9 +37,10 @@ public abstract class GameControllerBase {
         }
         System.out.println(this.win);
     }
-
+    
     protected abstract String getCharacterChoice();
     protected abstract Hero createNewHero();
+    protected abstract Hero selectLoadHero();
     protected abstract boolean moveHero(Gamemap map);
 
     protected void resetGame() {
@@ -55,6 +59,7 @@ public abstract class GameControllerBase {
             resetGame();
             this.win = false;
             showWin();
+            hero.saveHero();
             return false;
         }
         return true;

@@ -26,7 +26,20 @@ public class GameControllerTerminal extends GameControllerBase {
     protected Hero createNewHero(){
         String name = view.getHeroName();
         HeroClass heroClass = view.getHeroClass();
-        return new Hero(name, heroClass);
+        hero = new Hero(name, heroClass);
+        hero.saveHero();
+        return hero;
+    }
+
+    @Override
+    protected Hero selectLoadHero(){
+        String file = view.askForFile();
+
+        if(!file.trim().isEmpty()){
+            return Hero.loadHero(file);
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -118,6 +131,7 @@ public class GameControllerTerminal extends GameControllerBase {
                 }
             }
         }
+        hero.saveHero();
     }
 
     public void close(){

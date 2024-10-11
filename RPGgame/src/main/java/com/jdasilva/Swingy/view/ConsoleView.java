@@ -1,5 +1,6 @@
 package com.jdasilva.Swingy.view;
 
+import java.io.File;
 import java.util.Scanner;
 
 import com.jdasilva.Swingy.model.enemy.Enemy;
@@ -124,7 +125,6 @@ public class ConsoleView implements GameView {
             else
                 System.out.println("Invalid choice. Please type 'Create' or 'Load'");
         }
-      
     }
 
     public String getHeroName(){
@@ -164,6 +164,23 @@ public class ConsoleView implements GameView {
             }else{
                 scanner.nextLine();
                 System.out.println("Invalid input. Please enter a number between 1 and 3");
+            }
+        }
+    }
+
+    public String askForFile(){
+        String filename;
+
+        while(true){
+            System.out.println("Enter the name of the hero file to load (e.g., John_WARRIOR.json): ");
+            filename = scanner.nextLine().trim();
+
+            File file = new File(filename);
+            
+            if(!filename.isEmpty() &&file.exists() && !file.isDirectory()){
+                return filename;
+            }else{
+                System.out.println("Invalid file name. Please enter a valid file name.");
             }
         }
     }

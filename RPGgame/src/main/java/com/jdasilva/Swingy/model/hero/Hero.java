@@ -1,5 +1,11 @@
 package com.jdasilva.Swingy.model.hero;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Hero {
     private String name;
     private HeroClass heroClass;
@@ -139,6 +145,25 @@ public class Hero {
                 break;
         }
     }
+    
+    public void saveHero() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(name +"_"+ heroClass + ".json")) {
+            gson.toJson(this, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Hero loadHero(String name) {
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(name)) {
+            return gson.fromJson(reader, Hero.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public String toString() {
@@ -155,4 +180,5 @@ public class Hero {
                 ", Helm=" + (Helm != null ? Helm.getName() : "None") +
                 '}';
     }
+
 }

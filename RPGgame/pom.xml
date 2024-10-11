@@ -20,7 +20,6 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <!-- Hibernate Validator para validación con anotaciones -->
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
@@ -30,6 +29,11 @@
         <groupId>jakarta.validation</groupId>
         <artifactId>jakarta.validation-api</artifactId>
         <version>3.0.2</version>
+    </dependency>
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.11.0</version>
     </dependency>
   </dependencies>
 

@@ -32,8 +32,33 @@ public class GameControllerGUI  extends GameControllerBase{
     @Override
     protected Hero createNewHero(){
         String name = view.getHeroName();
+        if(name == null){
+            view.displayMessage("No name entered");
+            initializeGame();
+            return null;
+        }
         HeroClass heroClass = view.getHeroClass();
-        return new Hero(name, heroClass);
+        if (heroClass == null){
+            view.displayMessage("No class selected");
+            initializeGame();
+            return null;   
+        }
+        hero = new Hero(name, heroClass);
+        hero.saveHero();
+        return hero;
+    }
+
+    @Override
+    protected Hero selectLoadHero(){
+        String file = view.askForFile();
+        
+        if (file == null){
+            view.displayMessage("No file selected");
+            initializeGame();
+            return null;
+        }
+
+        return Hero.loadHero(file);
     }
 
     @Override
@@ -122,6 +147,6 @@ public class GameControllerGUI  extends GameControllerBase{
             view.displayMessage("You have been defeated by " + enemy.getName());
         }
         view.hideEnemyPanel();
+        hero.saveHero();
     }
-
 }

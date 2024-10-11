@@ -1,6 +1,7 @@
 package com.jdasilva.Swingy.view;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -288,17 +289,47 @@ public class GUIView extends JFrame implements GameView{
         Object[] options = {"Create", "Load"};
         int choice = JOptionPane.showOptionDialog(this, "Choose an option:", "WELCOME", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
+        if(choice == JOptionPane.CLOSED_OPTION){
+            int confirm = JOptionPane.showConfirmDialog(this, "Do you want to exit the game?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
+            if(confirm == JOptionPane.YES_OPTION){
+                System.exit(0);
+            } else {
+                return getCharacterChoice();
+            }
+        }
         return (choice == 0) ? "Create" : "Load";
     }
 
-    public String getHeroName(){
-        return JOptionPane.showInputDialog(this, "Enter your hero name", "Hero Name", JOptionPane.PLAIN_MESSAGE);
-    }
 
+    public String getHeroName(){
+        String name;
+
+        while(true){
+            name = JOptionPane.showInputDialog(this, "Enter your hero name", "Hero Name", JOptionPane.PLAIN_MESSAGE);
+            if(name == null){
+                int confirm = JOptionPane.showConfirmDialog(this, "Do you want to exit the game?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
+                if(confirm == JOptionPane.YES_OPTION)
+                    return null;
+            }else if (!name.trim().isEmpty()){
+                return name.trim();
+            }else{
+                JOptionPane.showMessageDialog(this, "Invalid name. Please enter a valid name", "Invalid Name", JOptionPane.ERROR_MESSAGE);
+            }   
+        }
+    }
+    
     public HeroClass getHeroClass(){
         Object[] options = {"Warrior", "Paladin", "Rogue"};
         int choice = JOptionPane.showOptionDialog(this, "Choose your hero class", "Hero Class", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
+        if (choice == JOptionPane.CLOSED_OPTION){
+            int confirm = JOptionPane.showConfirmDialog(this, "Do you want to exit the game?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
+            if(confirm == JOptionPane.YES_OPTION){
+                return null;
+            } else {
+                return getHeroClass();
+            }
+        }
         switch(choice){
             case 0:
                 return HeroClass.WARRIOR;
@@ -311,4 +342,19 @@ public class GUIView extends JFrame implements GameView{
         }
     }
 
+    public String askForFile(){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select a file");
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files", "json");
+        fileChooser.setFileFilter(filter);
+
+        int userSelection = fileChooser.showOpenDialog(this);
+
+        if(userSelection == JFileChooser.APPROVE_OPTION){
+            return fileChooser.getSelectedFile().getAbsolutePath();
+        }else{
+            return null;
+        }
+    }
 }
