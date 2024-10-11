@@ -12,11 +12,11 @@ public class GameControllerGUI  extends GameControllerBase{
 
     public GameControllerGUI(){
         super(); 
-       
         view = new GUIView(this);
         initializeGame();
+        view.initGUI();
         view.initializeHero(hero);
-
+        startGame();
     }
 
     public int getSizeMap(){

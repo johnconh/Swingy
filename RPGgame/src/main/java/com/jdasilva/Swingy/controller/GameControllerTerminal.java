@@ -14,6 +14,7 @@ public class GameControllerTerminal extends GameControllerBase {
         super();
         view = new ConsoleView();
         initializeGame();
+        startGame();
     }
 
     @Override

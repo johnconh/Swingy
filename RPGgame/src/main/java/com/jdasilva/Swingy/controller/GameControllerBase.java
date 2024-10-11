@@ -24,7 +24,6 @@ public abstract class GameControllerBase {
             return;
         }
         this.map = new Gamemap(hero.getLevel());
-        startGame(); 
     }
 
     public void startGame() {

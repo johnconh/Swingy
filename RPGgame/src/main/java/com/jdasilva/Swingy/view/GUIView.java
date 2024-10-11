@@ -25,10 +25,9 @@ public class GUIView extends JFrame implements GameView{
 
     public GUIView(GameControllerGUI controller){
         this.controller = controller;
-        initGUI();
     }
 
-    private void initGUI()
+    public void initGUI()
     {
         setTitle("Swingy - GUI");
         setSize(1000, 800);
@@ -287,7 +286,7 @@ public class GUIView extends JFrame implements GameView{
 
     public String getCharacterChoice(){
         Object[] options = {"Create", "Load"};
-        int choice = JOptionPane.showOptionDialog(this, "Choose your character", "Character", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        int choice = JOptionPane.showOptionDialog(this, "Choose an option:", "WELCOME", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
         return (choice == 0) ? "Create" : "Load";
     }
