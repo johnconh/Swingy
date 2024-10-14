@@ -38,11 +38,7 @@ public class GameControllerTerminal extends GameControllerBase {
             view.displayMessage("No file selected");
             initializeGame();
         }
-        if(!file.trim().isEmpty()){
-            return Hero.loadHero(file);
-        }else{
-            return null;
-        }
+        return Hero.loadHero(file);
     }
 
     @Override
@@ -52,8 +48,9 @@ public class GameControllerTerminal extends GameControllerBase {
         do{
             view.showDirectionOptions();
             dir = view.getInput();
-        } while(!dir.equalsIgnoreCase("N") && !dir.equalsIgnoreCase("E") && !dir.equalsIgnoreCase("S") && !dir.equalsIgnoreCase("W"));
-        
+        } while(!dir.equalsIgnoreCase("N") && !dir.equalsIgnoreCase("E") && !dir.equalsIgnoreCase("S") && !dir.equalsIgnoreCase("W") && !dir.equalsIgnoreCase("exit"));
+        if (dir.equalsIgnoreCase("exit"))
+            close();
         return moveMap(dir);
     }
 
@@ -75,8 +72,9 @@ public class GameControllerTerminal extends GameControllerBase {
         do{
             view.showBattleOptions();
             input = view.getInput();
-        } while (!input.equals("1") && !input.equals("2"));
-
+        } while (!input.equals("1") && !input.equals("2") && !input.equalsIgnoreCase("exit"));
+        if (input.equalsIgnoreCase("exit"))
+            close();
         if (input.equals("2"))
         {
             if (run())
@@ -147,13 +145,12 @@ public class GameControllerTerminal extends GameControllerBase {
             }else if(input.equalsIgnoreCase("n")){
                 view.displayMessage("Goodbye!");
                 close();
-                System.exit(0);
             }
         } while(true);
     }
 
     public void close(){
         view.closeScanner();
-        startGame();
+        System.exit(0);
     }
 }
