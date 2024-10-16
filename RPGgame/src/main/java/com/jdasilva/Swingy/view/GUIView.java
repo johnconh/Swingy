@@ -307,9 +307,7 @@ public class GUIView extends JFrame implements GameView{
         while(true){
             name = JOptionPane.showInputDialog(this, "Enter your hero name", "Hero Name", JOptionPane.PLAIN_MESSAGE);
             if(name == null){
-                int confirm = JOptionPane.showConfirmDialog(this, "Do you want to exit the game?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
-                if(confirm == JOptionPane.YES_OPTION)
-                    return null;
+                getCharacterChoice();
             }else if (!name.trim().isEmpty()){
                 return name.trim();
             }else{
@@ -323,12 +321,7 @@ public class GUIView extends JFrame implements GameView{
         int choice = JOptionPane.showOptionDialog(this, "Choose your hero class", "Hero Class", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
         if (choice == JOptionPane.CLOSED_OPTION){
-            int confirm = JOptionPane.showConfirmDialog(this, "Do you want to exit the game?", "Exit Confirmation", JOptionPane.YES_NO_OPTION);
-            if(confirm == JOptionPane.YES_OPTION){
-                return null;
-            } else {
-                return getHeroClass();
-            }
+            getHeroName();
         }
         switch(choice){
             case 0:
