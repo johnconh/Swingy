@@ -110,6 +110,7 @@ public class GameControllerGUI  extends GameControllerBase{
                 enemy.takeDamage(enemydamage);
                 view.updateEnemyLifeBar(enemy.getLife(), enemy.getHitPoints());
                 if(enemy.isDead()){
+                    enemy.resetLife();
                     break;
                 }else{
                     int herodamage = Math.max(0, enemy.getAttack() - hero.getDefense());
@@ -153,6 +154,14 @@ public class GameControllerGUI  extends GameControllerBase{
 
     @Override
     protected void retryGame(){
+        boolean choice = view.selectRetryGame();
+        if(choice == true){
+            view.clearMap();
+            view.redrawMap();
+            resetGame();
+            startGame();
+        }
         view.dispose();
     }
+
 }

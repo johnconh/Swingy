@@ -48,6 +48,11 @@ public abstract class Enemy {
         return attack;
     }
     
+    public int resetLife() {
+        life = hitPoints;
+        return life;
+    }
+    
     public int getLife() {
         return life;
     }

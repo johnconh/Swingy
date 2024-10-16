@@ -9,6 +9,7 @@ import com.jdasilva.Swingy.controller.GameControllerGUI;
 import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.hero.HeroClass;
+import com.jdasilva.Swingy.model.map.Gamemap;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import java.net.URL;
 
@@ -349,5 +350,33 @@ public class GUIView extends JFrame implements GameView{
         }else{
             return null;
         }
+    }
+
+    public boolean selectRetryGame(){
+        int choice = JOptionPane.showConfirmDialog(this, "Do you want to play again?", "Game Over", JOptionPane.YES_NO_OPTION);
+        return choice == JOptionPane.YES_OPTION;
+    }
+
+    public void clearMap(){
+
+        mapPanel.removeAll();
+        mapPanel.revalidate();
+        mapPanel.repaint();
+    }
+
+    public void redrawMap()
+    {
+        mapPanel.setLayout(new GridLayout(controller.getSizeMap(), controller.getSizeMap()));
+        mapLabels = new JLabel[controller.getSizeMap()][controller.getSizeMap()];
+
+        for (int i = 0; i < controller.getSizeMap(); i++) {
+            for (int j = 0; j < controller.getSizeMap(); j++) {
+                mapLabels[i][j] = new JLabel("", SwingConstants.CENTER);
+                mapLabels[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                mapPanel.add(mapLabels[i][j]);
+            }
+        }
+        mapPanel.revalidate();
+        mapPanel.repaint();
     }
 }

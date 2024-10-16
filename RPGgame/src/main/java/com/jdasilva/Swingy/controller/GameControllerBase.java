@@ -50,6 +50,7 @@ public abstract class GameControllerBase {
 
     public void resetGame() {
         hero.resetLife();
+        this.enemyFactoy = EnemyFactoy.CreateEnemy(hero.getLevel());
         this.map = new Gamemap(hero.getLevel());
         map.resetHeroPosition();
     }

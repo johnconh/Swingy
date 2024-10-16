@@ -10,7 +10,7 @@ public class Demonlord extends Enemy {
     private Random random;
 
     public Demonlord() {
-        super("Demonlord", 90, 100, 42, "/enemyImage/demonlord.png");
+        super("Demonlord", 160, 1000, 42, "/enemyImage/demonlord.png");
         random = new Random();
     }
 
