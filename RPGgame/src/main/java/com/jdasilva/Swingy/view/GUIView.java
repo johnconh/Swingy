@@ -9,7 +9,6 @@ import com.jdasilva.Swingy.controller.GameControllerGUI;
 import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.hero.HeroClass;
-import com.jdasilva.Swingy.model.map.Gamemap;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import java.net.URL;
 
