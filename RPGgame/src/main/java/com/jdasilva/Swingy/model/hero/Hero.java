@@ -103,7 +103,7 @@ public class Hero {
 
     public boolean setExperience(int experience) {
         
-        if (this.level >= 5) {
+        if (this.level >= 6) {
             return false;
         }
 

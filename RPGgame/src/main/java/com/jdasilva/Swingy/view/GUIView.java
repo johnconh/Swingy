@@ -154,8 +154,8 @@ public class GUIView extends JFrame implements GameView{
 
         icon = new ImageIcon(newImg);
         heroImageLabel.setIcon(icon);
-        enemyImageLabel.setPreferredSize(new Dimension(width, height));
-        enemyImageLabel.setMinimumSize(new Dimension(width, height));
+        heroImageLabel.setPreferredSize(new Dimension(width, height));
+        heroImageLabel.setMinimumSize(new Dimension(width, height));
         heroImageLabel.revalidate();
         heroImageLabel.repaint();
     }

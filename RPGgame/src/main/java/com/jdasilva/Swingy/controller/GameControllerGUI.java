@@ -89,6 +89,7 @@ public class GameControllerGUI  extends GameControllerBase{
             if (run())
             {
                 view.displayMessage("You ran away!");
+                view.hideEnemyPanel();
                 return;
             }else{
                 view.displayMessage("You failed to run away!");

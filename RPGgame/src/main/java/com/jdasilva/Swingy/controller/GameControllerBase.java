@@ -1,5 +1,7 @@
 package com.jdasilva.Swingy.controller;
 
+import java.util.List;
+
 import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.enemy.EnemyFactoy;
 import com.jdasilva.Swingy.model.hero.ArtifactManager;
@@ -10,6 +12,7 @@ public abstract class GameControllerBase {
     protected Hero hero;
     protected boolean win;
     protected Gamemap map;
+    protected List<Enemy> enemyFactoy;
 
     public GameControllerBase() {
         this.win = false;
@@ -27,6 +30,7 @@ public abstract class GameControllerBase {
             }
         }
         this.map = new Gamemap(this.hero.getLevel());
+        this.enemyFactoy = EnemyFactoy.CreateEnemy(this.hero.getLevel());
     }
 
     public void startGame() {
@@ -92,7 +96,7 @@ public abstract class GameControllerBase {
     {
         if(map.moveHero(direction)){
             if(enemyFound()){
-                Enemy enemy = EnemyFactoy.CreateEnemy(hero.getLevel());
+                Enemy enemy = EnemyFactoy.getEnemy(enemyFactoy);
                 enemy.initializeArtifacts(hero, new ArtifactManager());
                 battle(enemy);
             }
