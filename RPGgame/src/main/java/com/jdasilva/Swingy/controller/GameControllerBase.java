@@ -25,6 +25,7 @@ public abstract class GameControllerBase {
         }
         else if(choice.equalsIgnoreCase("Load")){
             this.hero = selectLoadHero();
+            System.out.println("initializagame " + this.hero);
             if(this.hero == null){
                 initializeGame();
             }

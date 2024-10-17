@@ -1,12 +1,21 @@
 package com.jdasilva.Swingy.model.hero;
 
+import com.jdasilva.Swingy.database.databaseManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Hero {
+    private int id;
     private String name;
     private HeroClass heroClass;
     private int level;
@@ -15,10 +24,14 @@ public class Hero {
     private int defense;
     private int hitPoints;
     private int life;
-    private Artifact Weapon;
-    private Artifact Armor;
-    private Artifact Helm;
+    private Artifact weapon;
+    private Artifact armor;
+    private Artifact helm;
     private String image;
+    private String URL;
+    private String DB_NAME;
+    private String USER;
+    private String PASSWORD;
 
     public Hero(String name, HeroClass heroClass) {
         this.name = name;
@@ -29,86 +42,234 @@ public class Hero {
         this.defense = heroClass.getDefense();
         this.hitPoints = heroClass.getHitPoints();
         this.life = hitPoints;
-        this.Weapon = null;
-        this.Armor = null;
-        this.Helm = null;
+        this.weapon = null;
+        this.armor = null;
+        this.helm = null;
         this.image = heroClass.getImage();
+
+        this.URL = databaseManager.getURL();
+        this.DB_NAME = databaseManager.getDB_NAME();
+        this.USER = databaseManager.getUSER();
+        this.PASSWORD = databaseManager.getPASSWORD();
     }
 
-    public String getImage() {
-        return image;
+    
+    
+    public void equipArtifact(Artifact artifact){
+        
+        switch (artifact.getType()) {
+            case WEAPON:
+            if (weapon != null) {
+                    attack -= weapon.getAttack();
+                }
+                weapon = artifact;
+                attack += weapon.getAttack();
+                break;
+                case ARMOR:
+                if (armor != null) {
+                    defense -= armor.getDefense();
+                }
+                armor = artifact;
+                defense += armor.getDefense();
+                break;
+                case HELM:
+                if (helm != null) {
+                    hitPoints -= helm.getHitPoints();
+                }
+                helm = artifact;
+                hitPoints += helm.getHitPoints();
+                break;
+            }
+        }
+        
+    public void saveHero(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        try {
+            connection = DriverManager.getConnection(this.URL + this.DB_NAME, this.USER, this.PASSWORD);
+            
+            String heroQuery = "INSERT INTO heroes (name, class, level, experience, attack, defense, hitPoints, image) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;";
+            statement = connection.prepareStatement(heroQuery);
+            statement.setString(1, this.getName());
+            statement.setString(2, this.getHeroClass().toString());
+            statement.setInt(3, this.getLevel());
+            statement.setInt(4, this.getExperience());
+            statement.setInt(5, this.getAttack());
+            statement.setInt(6, this.getDefense());
+            statement.setInt(7, this.getHitPoints());
+            statement.setString(8, this.getImage());
+            
+            resultSet = statement.executeQuery();
+            if(resultSet != null && resultSet.next()){
+                this.setID(resultSet.getInt(1));
+            }
+            
+            String deleteArtifctsQuery = "DELETE FROM artifacts WHERE hero_id = ?";
+            statement = connection.prepareStatement(deleteArtifctsQuery);
+            statement.setInt(1, this.getID());
+            statement.executeUpdate();
+            
+            String artiftsQuery = "INSERT INTO artifacts (hero_id, name, type, attack, defense, hitPoints)" +
+            "VALUES (?, ?, ?, ?, ?, ?)";
+            statement = connection.prepareStatement(artiftsQuery);
+            
+            if(weapon != null){
+                statement.setInt(1, this.getID());
+                statement.setString(2, weapon.getName());
+                statement.setString(3, weapon.getType().toString());
+                statement.setInt(4, weapon.getAttack());
+                statement.setInt(5, weapon.getDefense());
+                statement.setInt(6, weapon.getHitPoints());
+                statement.executeUpdate();
+            }
+            
+            if(armor != null){
+                statement.setInt(1, this.getID());
+                statement.setString(2, armor.getName());
+                statement.setString(3, armor.getType().toString());
+                statement.setInt(4, armor.getAttack());
+                statement.setInt(5, armor.getDefense());
+                statement.setInt(6, armor.getHitPoints());
+                statement.executeUpdate();
+            }
+            
+            if(helm != null){
+                statement.setInt(1, this.getID());
+                statement.setString(2, helm.getName());
+                statement.setString(3, helm.getType().toString());
+                statement.setInt(4, helm.getAttack());
+                statement.setInt(5, helm.getDefense());
+                statement.setInt(6, helm.getHitPoints());
+                statement.executeUpdate();
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
-    public Artifact getWeapon() {
-        return Weapon;
+    public static Hero loadHero(int id) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Hero hero = null;
+        try {
+            connection = DriverManager.getConnection(databaseManager.getURL() + databaseManager.getDB_NAME(), databaseManager.getUSER(), databaseManager.getPASSWORD());
+            String query = "SELECT * FROM heroes WHERE id = ?";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            if(resultSet.next())
+            {
+                String name = resultSet.getString("name");
+                HeroClass heroClass = HeroClass.valueOf(resultSet.getString("class"));
+                int level = resultSet.getInt("level");
+                int experience = resultSet.getInt("experience");
+                int attack = resultSet.getInt("attack");
+                int defense = resultSet.getInt("defense");
+                int hitPoints = resultSet.getInt("hitPoints");
+                String image = resultSet.getString("image");
+
+                hero = new Hero(name, heroClass);
+                hero.setLevel(level);
+                hero.setExperience(experience);
+                hero.setAttack(attack);
+                hero.setDefense(defense);
+                hero.setHitPoints(hitPoints);
+                hero.setImage(image);
+
+                query = "SELECT * FROM artifacts WHERE hero_id = ?";
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, id);
+                resultSet = statement.executeQuery();
+                while(resultSet.next())
+                {
+                    String artifactName = resultSet.getString("name");
+                    ArtifactType type = ArtifactType.valueOf(resultSet.getString("type"));
+                    int artifactAttack = resultSet.getInt("attack");
+                    int artifactDefense = resultSet.getInt("defense");
+                    int artifactHitPoints = resultSet.getInt("hitPoints");
+                    Artifact artifact = new Artifact(artifactName, type, artifactAttack, artifactDefense, artifactHitPoints);
+                    hero.equipArtifact(artifact);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("loadHero " + hero);
+        return hero;
     }
 
-    public Artifact getArmor() {
-        return Armor;
-    }
+    public static List<Hero> getAllHeroes(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Hero> heroes = new ArrayList<>();
 
-    public Artifact getHelm() {
-        return Helm;
+        try {
+            connection = DriverManager.getConnection(databaseManager.getURL() + databaseManager.getDB_NAME(), databaseManager.getUSER(), databaseManager.getPASSWORD());
+            String query = "SELECT * FROM heroes";
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+            while(resultSet.next())
+            {
+                int id = resultSet.getInt("id");
+                System.out.println("getAllHeroes id: " + id);
+                Hero hero = new Hero(resultSet.getString("name"), HeroClass.valueOf(resultSet.getString("class")));
+                hero.setID(id);
+
+                heroes.add(hero);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return heroes;
     }
+    // public void saveHero() {
+        //     Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        //     try (FileWriter writer = new FileWriter(name +"_"+ heroClass + ".json")) {
+            //         gson.toJson(this, writer);
+            //     } catch (IOException e) {
+                //         e.printStackTrace();
+                //     }
+                // }
+                
+                // public static Hero loadHero(String name) {
+                    //     Gson gson = new Gson();
+    //     try (FileReader reader = new FileReader(name)) {
+    //         return gson.fromJson(reader, Hero.class);
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    //     return null;
+    // }
     
-    public String getName() {
-        return name;
-    }
-
-    public HeroClass getHeroClass() {
-        return heroClass;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public int getAttack() {
-        return attack;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public int getHitPoints() {
-        return hitPoints;
-    }
-
-    public int getLife() {
-        return life;
-    }
-
-    public int takeDamage(int damage) {
-        life -= damage;
-        return hitPoints;
-    }
-
-    public boolean isDead() {
-        return life <= 0;
-    }
-
-    public void resetLife()
-    {
-        this.life = hitPoints;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
+    
     public boolean setExperience(int experience) {
         
         if (this.level >= 6) {
             return false;
         }
-
+        
         this.experience += experience;
-
+        
         if (this.experience >= (this.level * 1000 + Math.pow(this.level - 1, 2) * 450)) {
             this.level++;
             this.attack += 5;
@@ -118,67 +279,115 @@ public class Hero {
         }
         return false;
     }
-
-    public void equipArtifact(Artifact artifact){
-     
-        switch (artifact.getType()) {
-            case WEAPON:
-                if (Weapon != null) {
-                    attack -= Weapon.getAttack();
-                }
-                Weapon = artifact;
-                attack += Weapon.getAttack();
-                break;
-            case ARMOR:
-                if (Armor != null) {
-                    defense -= Armor.getDefense();
-                }
-                Armor = artifact;
-                defense += Armor.getDefense();
-                break;
-            case HELM:
-                if (Helm != null) {
-                    hitPoints -= Helm.getHitPoints();
-                }
-                Helm = artifact;
-                hitPoints += Helm.getHitPoints();
-                break;
-        }
+    
+    public void setID(int id) {
+        this.id = id;
     }
     
-    public void saveHero() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter writer = new FileWriter(name +"_"+ heroClass + ".json")) {
-            gson.toJson(this, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public int getID() {
+        return id;
+    }
+    
+    public String getImage() {
+        return image;
     }
 
-    public static Hero loadHero(String name) {
-        Gson gson = new Gson();
-        try (FileReader reader = new FileReader(name)) {
-            return gson.fromJson(reader, Hero.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+    public Artifact getWeapon() {
+        return weapon;
+    }
+    
+    public Artifact getArmor() {
+        return armor;
+    }
+    
+    public Artifact getHelm() {
+        return helm;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public HeroClass getHeroClass() {
+        return heroClass;
+    }
+    
+    public int getLevel() {
+        return level;
     }
 
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+    
+    public int getAttack() {
+        return attack;
+    }
+    
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
+    }
+    
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+    
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
+    
+    public int takeDamage(int damage) {
+        life -= damage;
+        return hitPoints;
+    }
+    
+    public boolean isDead() {
+        return life <= 0;
+    }
+    
+    public void resetLife()
+    {
+        this.life = hitPoints;
+    }
+    
+    public void setLevel(int level) {
+        this.level = level;
+    }
+    
     @Override
     public String toString() {
         return "Hero{" +
-                "name='" + name + '\'' +
-                ", heroClass=" + heroClass +
-                ", level=" + level +
-                ", experience=" + experience +
-                ", attack=" + attack +
-                ", defense=" + defense +
-                ", hitPoints=" + hitPoints +
-                ", Weapon=" + (Weapon != null ? Weapon.getName() : "None") +
-                ", Armor=" + (Armor != null ? Armor.getName() : "None") +
-                ", Helm=" + (Helm != null ? Helm.getName() : "None") +
-                '}';
+        "name='" + name + '\'' +
+        ", heroClass=" + heroClass +
+        ", level=" + level +
+        ", experience=" + experience +
+        ", attack=" + attack +
+        ", defense=" + defense +
+        ", hitPoints=" + hitPoints +
+        ", Weapon=" + (weapon != null ? weapon.getName() : "None") +
+        ", Armor=" + (armor != null ? armor.getName() : "None") +
+        ", Helm=" + (helm != null ? helm.getName() : "None") +
+        '}';
     }
-
 }
+

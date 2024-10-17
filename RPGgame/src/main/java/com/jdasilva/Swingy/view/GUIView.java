@@ -1,5 +1,6 @@
 package com.jdasilva.Swingy.view;
 
+import java.util.List;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -335,21 +336,21 @@ public class GUIView extends JFrame implements GameView{
         }
     }
 
-    public String askForFile(){
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Select a file");
-
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files", "json");
-        fileChooser.setFileFilter(filter);
-
-        int userSelection = fileChooser.showOpenDialog(this);
-
-        if(userSelection == JFileChooser.APPROVE_OPTION){
-            return fileChooser.getSelectedFile().getAbsolutePath();
-        }else{
-            return null;
+    public int loadHeroFromDB(){
+        List<Hero> heros = Hero.getAllHeroes();
+        if(heros.isEmpty()){
+            JOptionPane.showMessageDialog(this, "No heroes found", "No heroes", JOptionPane.ERROR_MESSAGE);
+            return -1;
         }
+        Hero selecHero = (Hero)JOptionPane.showInputDialog(this, "Select a hero", "Load Hero", JOptionPane.PLAIN_MESSAGE, null, heros.toArray(), null);
+        System.out.println("loadheroFromDB select: " + selecHero);
+        if(selecHero == null){
+            getCharacterChoice();
+        }
+        System.out.println("loadHeroFromDD: " + selecHero.getID());
+        return selecHero.getID();
     }
+    
 
     public boolean selectRetryGame(){
         int choice = JOptionPane.showConfirmDialog(this, "Do you want to play again?", "Game Over", JOptionPane.YES_NO_OPTION);

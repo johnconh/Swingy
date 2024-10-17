@@ -38,7 +38,7 @@ public class GameControllerTerminal extends GameControllerBase {
             view.displayMessage("No file selected");
             initializeGame();
         }
-        return Hero.loadHero(file);
+        return Hero.loadHero(1);
     }
 
     @Override

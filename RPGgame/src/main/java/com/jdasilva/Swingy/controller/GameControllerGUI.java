@@ -50,14 +50,16 @@ public class GameControllerGUI  extends GameControllerBase{
 
     @Override
     protected Hero selectLoadHero(){
-        String file = view.askForFile();
+        int file = view.loadHeroFromDB();
+        System.out.println("selectLoadHero int: " + file);
         
-        if (file == null){
+        if (file == -1){
             view.displayMessage("No file selected");
             initializeGame();
             return null;
         }
-
+        Hero hero = Hero.loadHero(file);
+        System.out.println("selecloadHero: " + hero);
         return Hero.loadHero(file);
     }
 
