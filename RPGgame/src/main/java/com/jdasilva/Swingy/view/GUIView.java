@@ -344,7 +344,7 @@ public class GUIView extends JFrame implements GameView{
         }
         Hero selecHero = (Hero)JOptionPane.showInputDialog(this, "Select a hero", "Load Hero", JOptionPane.PLAIN_MESSAGE, null, heros.toArray(), null);
         if(selecHero == null){
-            getCharacterChoice();
+            return -1;
         }
         return selecHero.getID();
     }
