@@ -132,7 +132,8 @@ public class GameControllerTerminal extends GameControllerBase {
                 }
             }
         }
-        hero.saveHero();
+        System.err.println("BattleSequence: " + hero.getID());
+        hero.updateHero();
     }
 
     @Override

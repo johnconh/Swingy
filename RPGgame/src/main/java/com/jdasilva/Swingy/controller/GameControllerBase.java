@@ -25,7 +25,6 @@ public abstract class GameControllerBase {
         }
         else if(choice.equalsIgnoreCase("Load")){
             this.hero = selectLoadHero();
-            System.out.println("initializagame " + this.hero);
             if(this.hero == null){
                 initializeGame();
             }
@@ -58,7 +57,6 @@ public abstract class GameControllerBase {
 
     protected boolean gameStatus() {
         if (hero.isDead()) {
-            resetGame();
             showGameOver();
             return false;
         }
@@ -66,7 +64,7 @@ public abstract class GameControllerBase {
             resetGame();
             this.win = false;
             showWin();
-            hero.saveHero();
+            hero.updateHero();
             return false;
         }
         return true;

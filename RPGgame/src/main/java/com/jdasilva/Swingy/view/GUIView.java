@@ -2,7 +2,6 @@ package com.jdasilva.Swingy.view;
 
 import java.util.List;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -338,16 +337,15 @@ public class GUIView extends JFrame implements GameView{
 
     public int loadHeroFromDB(){
         List<Hero> heros = Hero.getAllHeroes();
+        System.out.println("loadHeroFromDB" + heros);
         if(heros.isEmpty()){
             JOptionPane.showMessageDialog(this, "No heroes found", "No heroes", JOptionPane.ERROR_MESSAGE);
             return -1;
         }
         Hero selecHero = (Hero)JOptionPane.showInputDialog(this, "Select a hero", "Load Hero", JOptionPane.PLAIN_MESSAGE, null, heros.toArray(), null);
-        System.out.println("loadheroFromDB select: " + selecHero);
         if(selecHero == null){
             getCharacterChoice();
         }
-        System.out.println("loadHeroFromDD: " + selecHero.getID());
         return selecHero.getID();
     }
     
