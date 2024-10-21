@@ -1,6 +1,5 @@
 package com.jdasilva.Swingy;
 
-import java.util.Scanner;
 import com.jdasilva.Swingy.controller.GameControllerGUI;
 import com.jdasilva.Swingy.database.databaseManager;
 import com.jdasilva.Swingy.controller.GameControllerTerminal;
@@ -9,24 +8,20 @@ public class App
 {
     public static void main( String[] args)
     {
-        new databaseManager();
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please choose the mode: 'console' or 'gui'");
-        String input = "";
-        while (true) {
-            input = scanner.nextLine().toLowerCase();
-            if(input.equals("console")){
+        if (args.length == 1) {
+            new databaseManager();
+            if (args[0].equalsIgnoreCase("console")) {
+                System.out.println("Launching in console mode...");
                 new GameControllerTerminal();
-                break;
-            }
-            else if(input.equals("gui")){
+            } else if (args[0].equalsIgnoreCase("gui")) {
+                System.out.println("Launching in GUI mode...");
                 new GameControllerGUI();
-                break;
+            } else {
+                System.out.println("Invalid argument. Use 'console' or 'gui'.");
             }
-            else
-                System.out.println("Please choose the mode: 'console' or 'gui'"); 
+        } else {
+            System.out.println("Please provide an argument: 'console' or 'gui'.");
         }
-        scanner.close();
         return;
     }
 }

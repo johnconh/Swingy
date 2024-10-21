@@ -1,4 +1,10 @@
 #!/bin/bash
 
 mvn clean package
-java -jar target/RPGgame-1.0.jar
+
+if [ -z "$1" ]; then
+  echo "Usage: ./run_game.sh [console|gui]"
+  exit 1
+fi
+
+java -jar target/RPGgame-1.0.jar $1
