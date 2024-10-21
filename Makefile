@@ -5,6 +5,7 @@ run:
 	@cd RPGgame/; \
 	read -p "Enter mode console o gui: " mode; \
 	./run.sh $${mode}
+	
 down:
 	docker compose down
 
