@@ -18,7 +18,7 @@ public class GameControllerGUI  extends GameControllerBase{
         view.initializeHero(hero);
         startGame();
     }
-
+    
     public int getSizeMap(){
 
         return map.getSize();
@@ -54,7 +54,6 @@ public class GameControllerGUI  extends GameControllerBase{
         
         if (file == -1){
             view.displayMessage("No file selected");
-            initializeGame();
             return null;
         }
         return Hero.loadHero(file);
@@ -157,10 +156,11 @@ public class GameControllerGUI  extends GameControllerBase{
         if(choice == true){
             view.clearMap();
             view.redrawMap();
+            view.updateHeroLifeBar(hero.getHitPoints(), hero.getHitPoints());
             resetGame();
             startGame();
+        }else if (choice == false){
+            System.exit(0);
         }
-        view.dispose();
     }
-
 }

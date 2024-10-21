@@ -278,7 +278,6 @@ public class Hero {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("getAllHeroes: " + heroes);
         return heroes;
     }
 

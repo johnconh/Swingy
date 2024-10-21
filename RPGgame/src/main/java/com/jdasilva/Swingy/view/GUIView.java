@@ -12,7 +12,7 @@ import com.jdasilva.Swingy.model.hero.HeroClass;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import java.net.URL;
 
-public class GUIView extends JFrame implements GameView{
+public class GUIView extends JFrame {
     private JLabel heroStatsLabel, enemyStatsLabel;
     private JLabel heroImageLabel, enemyImageLabel;
     private JProgressBar heroLifeBar, enemyLifeBar;
@@ -219,7 +219,7 @@ public class GUIView extends JFrame implements GameView{
     }
 
     public void gameOver(){
-        JOptionPane.showMessageDialog(this, "Game Over");
+        JOptionPane.showMessageDialog(this, "GAME OVER");
     }
 
     public void win(){
@@ -337,7 +337,6 @@ public class GUIView extends JFrame implements GameView{
 
     public int loadHeroFromDB(){
         List<Hero> heros = Hero.getAllHeroes();
-        System.out.println("loadHeroFromDB" + heros);
         if(heros.isEmpty()){
             JOptionPane.showMessageDialog(this, "No heroes found", "No heroes", JOptionPane.ERROR_MESSAGE);
             return -1;
@@ -377,4 +376,4 @@ public class GUIView extends JFrame implements GameView{
         mapPanel.revalidate();
         mapPanel.repaint();
     }
-}
+} 

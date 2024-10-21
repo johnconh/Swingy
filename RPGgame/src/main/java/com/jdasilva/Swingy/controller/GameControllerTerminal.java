@@ -57,6 +57,7 @@ public class GameControllerTerminal extends GameControllerBase {
     @Override
     protected void showGameOver(){
         view.gameOver();
+
     }
 
     @Override

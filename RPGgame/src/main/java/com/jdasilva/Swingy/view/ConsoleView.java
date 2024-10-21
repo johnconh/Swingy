@@ -8,10 +8,10 @@ import com.jdasilva.Swingy.model.hero.Artifact;
 import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.hero.HeroClass;
 
-public class ConsoleView implements GameView {
+public class ConsoleView {
 
     private Scanner scanner;
-
+  
     public static final String RESET = "\u001B[0m";
     public static final String GREEN = "\u001B[32m";
     public static final String RED = "\u001B[31m";
