@@ -9,7 +9,7 @@ public class Dragon extends Enemy {
     private Random random;
 
     public Dragon() {
-        super("Dragon", 70, 110, 1500, "/enemyImage/dragon.png");
+        super("Dragon", 70, 90, 1500, "/enemyImage/dragon.png");
         random = new Random();
     }
 
