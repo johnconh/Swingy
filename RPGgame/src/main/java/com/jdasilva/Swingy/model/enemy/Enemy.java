@@ -22,11 +22,10 @@ public abstract class Enemy {
         this.experience = experience;
         this.image = image;
     }
-
+    
     public abstract void initializeArtifacts(Hero hero, ArtifactManager artifacts);
-
     public abstract Artifact getArtifact();
-
+    
     public int takeDamage(int damage) {
         life -= damage;
         return life;
@@ -35,15 +34,15 @@ public abstract class Enemy {
     public boolean isDead() {
         return life <= 0;
     }
-
+    
     public List<Artifact> ListArtifacts() {
         return artifacts;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public int getAttack() {
         return attack;
     }
@@ -56,15 +55,15 @@ public abstract class Enemy {
     public int getLife() {
         return life;
     }
-
+    
     public int getHitPoints() {
         return hitPoints;
     }
-
+    
     public int getExperience() {
         return experience;
     }
-
+    
     public String getImage() {
         return image;
     }

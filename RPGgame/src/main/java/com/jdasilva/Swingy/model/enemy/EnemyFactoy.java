@@ -6,7 +6,6 @@ import java.util.Random;
 
 public class EnemyFactoy {
 
-
     private static Random random = new Random();
 
     public static List<Enemy> CreateEnemy(int herolevel) {

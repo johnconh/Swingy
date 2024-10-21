@@ -47,6 +47,9 @@ public abstract class GameControllerBase {
     protected abstract Hero selectLoadHero();
     protected abstract boolean moveHero(Gamemap map);
     protected abstract void retryGame();
+    protected abstract void showGameOver();
+    protected abstract void showWin();
+    protected abstract void BattleSequence(Enemy enemy);
 
     public void resetGame() {
         hero.resetLife();
@@ -70,8 +73,6 @@ public abstract class GameControllerBase {
         return true;
     }
 
-    protected abstract void showGameOver();
-    protected abstract void showWin();
     
 
     protected boolean run() {
@@ -90,7 +91,6 @@ public abstract class GameControllerBase {
         BattleSequence(enemy);
     }
 
-    protected abstract void BattleSequence(Enemy enemy);
 
     public boolean moveMap(String direction)
     {
