@@ -377,7 +377,7 @@ public class Hero {
     
     public int takeDamage(int damage) {
         life -= damage;
-        return hitPoints;
+        return life;
     }
     
     public boolean isDead() {
