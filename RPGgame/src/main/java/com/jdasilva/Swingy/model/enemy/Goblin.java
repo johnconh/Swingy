@@ -11,7 +11,7 @@ public class Goblin extends Enemy {
     private Random random;
 
     public Goblin() {
-        super("Goblin", 30, 30, 500, "/enemyImage/goblin.png");
+        super("Goblin", 30, 50, 500, "/enemyImage/goblin.png");
         random = new Random();
     }
 
