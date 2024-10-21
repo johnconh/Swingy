@@ -9,7 +9,7 @@ public class Rat extends Enemy {
     private Random random;
 
     public Rat() {
-        super("Rat", 20, 20, 250, "/enemyImage/rat.png");
+        super("Rat", 20, 50, 250, "/enemyImage/rat.png");
         random = new Random();
     }
 

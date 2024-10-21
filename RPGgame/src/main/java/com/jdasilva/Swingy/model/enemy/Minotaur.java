@@ -9,7 +9,7 @@ public class Minotaur extends Enemy {
     private Random random;
 
     public Minotaur() {
-        super("Minotaur", 50, 85, 1100, "/enemyImage/minotaur.png");
+        super("Minotaur", 50, 90, 1100, "/enemyImage/minotaur.png");
         random = new Random();
     }
 

@@ -10,7 +10,7 @@ public class Orc extends Enemy {
     private Random random;
 
     public Orc() {
-        super("Orc", 45, 70, 700, "/enemyImage/orc.png");
+        super("Orc", 45, 80, 700, "/enemyImage/orc.png");
         random = new Random();
     }
 
