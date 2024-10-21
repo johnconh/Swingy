@@ -4,7 +4,7 @@
   <groupId>com.jdasilva.Swingy</groupId>
   <artifactId>RPGgame</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>RPGgame</name>
   <url>http://maven.apache.org</url>
 
@@ -42,7 +42,7 @@
     </dependency>
   </dependencies>
 
-  <build>
+<build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -53,6 +53,7 @@
           <target>17</target>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -64,6 +65,20 @@
             </manifest>
           </archive>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase> 
+            <goals>
+              <goal>shade</goal>  
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

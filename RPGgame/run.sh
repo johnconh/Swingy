@@ -7,4 +7,4 @@ mvn clean
 mvn package
 
 # Ejecutar el archivo .jar (ajusta la ruta del archivo .jar si es necesario)
-java -jar target/RPGgame-1.0-SNAPSHOT.jar
+java -jar target/RPGgame-1.0.jar

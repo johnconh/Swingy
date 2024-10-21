@@ -1,7 +1,6 @@
 package com.jdasilva.Swingy;
 
 import java.util.Scanner;
-
 import com.jdasilva.Swingy.controller.GameControllerGUI;
 import com.jdasilva.Swingy.database.databaseManager;
 import com.jdasilva.Swingy.controller.GameControllerTerminal;
