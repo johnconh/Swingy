@@ -14,7 +14,6 @@ public class App
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please choose the mode: 'console' or 'gui'");
         String input = "";
-
         while (true) {
             input = scanner.nextLine().toLowerCase();
             if(input.equals("console")){
@@ -28,6 +27,7 @@ public class App
             else
                 System.out.println("Please choose the mode: 'console' or 'gui'"); 
         }
+        scanner.close();
         return;
     }
 }
