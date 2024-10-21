@@ -33,12 +33,12 @@ public class GameControllerTerminal extends GameControllerBase {
 
     @Override
     protected Hero selectLoadHero(){
-        String file = view.askForFile();
-        if(file == null){
+        int file = view.loadHeroFromDB();
+        if(file == - 1){
             view.displayMessage("No file selected");
-            initializeGame();
+            return null;
         }
-        return Hero.loadHero(1);
+        return Hero.loadHero(file);
     }
 
     @Override
@@ -143,6 +143,7 @@ public class GameControllerTerminal extends GameControllerBase {
             view.displayMessage("Do you want to play again? (y/n)");
             String input = view.getInput();
             if(input.equalsIgnoreCase("y")){
+                resetGame();
                 startGame();
             }else if(input.equalsIgnoreCase("n")){
                 view.displayMessage("Goodbye!");

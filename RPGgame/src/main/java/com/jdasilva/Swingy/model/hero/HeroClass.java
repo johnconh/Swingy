@@ -2,7 +2,7 @@ package com.jdasilva.Swingy.model.hero;
 
 public enum HeroClass {
     
-    WARRIOR(3, 15, 380, 0, "/heroImage/warrior.png"),
+    WARRIOR(3, 15, 10, 0, "/heroImage/warrior.png"),
     ROGUE(15, 3, 350, 0, "/heroImage/rogue.png"),
     PALADIN(5, 5, 400, 0, "/heroImage/paladin.png"),;
 

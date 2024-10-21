@@ -1,8 +1,7 @@
 package com.jdasilva.Swingy.view;
 
-import java.io.File;
 import java.util.Scanner;
-
+import java.util.List;
 import com.jdasilva.Swingy.model.enemy.Enemy;
 import com.jdasilva.Swingy.model.hero.Artifact;
 import com.jdasilva.Swingy.model.hero.Hero;
@@ -167,24 +166,31 @@ public class ConsoleView {
         }
     }
 
-    public String askForFile(){
-        String filename;
-
-        while(true){
-            System.out.println("Enter the name of the hero file to load (e.g., John_WARRIOR.json): ");
-            filename = scanner.nextLine().trim();
-
-            if(filename.equalsIgnoreCase("exit")){
-                return null;
+    public int loadHeroFromDB(){
+        List<Hero> heroes = Hero.getAllHeroes();
+        showHeroList(heroes);
+        int choice = -1;
+        do{
+            System.out.println("Choose a hero to load: ");
+            while(!scanner.hasNextInt()){
+                System.out.println("Invalid input. Please enter a number");
+                scanner.next();
             }
-
-            File file = new File(filename);
-            
-            if(!filename.isEmpty() &&file.exists() && !file.isDirectory()){
-                return filename;
-            }else{
-                System.out.println("Invalid file name. Please enter a valid file name.");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+            if(choice < 1 || choice > heroes.size()){
+                System.out.println("Invalid input. Please enter a number between 1 and " + heroes.size());
+                choice = -1;
             }
+        }while (choice == -1);
+        return heroes.get(choice - 1).getID();
+    }
+
+    private void showHeroList(List<Hero> heroes) {
+        System.out.println("Available Heroes:");
+        for (int i = 0; i < heroes.size(); i++) {
+            Hero hero = heroes.get(i);
+            System.out.println((i + 1) + ". " + hero.getName() + " (Class: " + hero.getHeroClass() + ", Level: " + hero.getLevel() + ")");
         }
     }
 }
