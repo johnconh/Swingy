@@ -57,7 +57,7 @@ public abstract class GameControllerBase {
         this.map = new Gamemap(hero.getLevel());
         map.resetHeroPosition();
     }
-
+    
     protected boolean gameStatus() {
         if (hero.isDead()) {
             showGameOver();
@@ -72,8 +72,6 @@ public abstract class GameControllerBase {
         }
         return true;
     }
-
-    
 
     protected boolean run() {
         return Math.random() < 0.5;
@@ -90,7 +88,6 @@ public abstract class GameControllerBase {
     protected void battle(Enemy enemy) {
         BattleSequence(enemy);
     }
-
 
     public boolean moveMap(String direction)
     {

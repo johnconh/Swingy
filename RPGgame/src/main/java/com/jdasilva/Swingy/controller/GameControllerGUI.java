@@ -116,6 +116,7 @@ public class GameControllerGUI  extends GameControllerBase{
                     view.updateHeroLifeBar(hero.getLife(), hero.getHitPoints());
                 }
             }
+            
             try{
                 Thread.sleep(1000);
             } catch (InterruptedException e){
