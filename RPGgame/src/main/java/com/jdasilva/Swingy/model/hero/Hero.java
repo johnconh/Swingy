@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.postgresql.replication.fluent.physical.StartPhysicalReplicationCallback;
-
 public class Hero {
     private int id;
     private String name;
