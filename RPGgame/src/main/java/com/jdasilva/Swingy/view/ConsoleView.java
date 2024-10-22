@@ -131,13 +131,9 @@ public class ConsoleView {
     }
 
     public String getHeroName(){
-        while(true){
-            System.out.println("Enter your hero name: ");
-            String name = scanner.nextLine().trim();
-            if(!name.isEmpty()){
-                return name;    
-            }
-        }
+        System.out.println("Enter your hero name: ");
+        String name = scanner.nextLine();
+        return name;
     }
 
     public HeroClass getHeroClass(){

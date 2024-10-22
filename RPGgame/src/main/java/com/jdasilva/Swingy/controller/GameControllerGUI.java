@@ -6,9 +6,11 @@ import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.hero.HeroClass;
 import com.jdasilva.Swingy.model.map.Gamemap;
 import com.jdasilva.Swingy.model.enemy.Enemy;
+import com.jdasilva.Swingy.model.validator.Validate;
 
 public class GameControllerGUI  extends GameControllerBase{
     private GUIView view;
+    private Validate heroService = new Validate();
 
     public GameControllerGUI(){
         super(); 
@@ -32,18 +34,12 @@ public class GameControllerGUI  extends GameControllerBase{
     @Override
     protected Hero createNewHero(){
         String name = view.getHeroName();
-        if(name == null){
-            view.displayMessage("No name entered");
-            initializeGame();
-            return null;
-        }
         HeroClass heroClass = view.getHeroClass();
-        if (heroClass == null){
-            view.displayMessage("No class selected");
-            initializeGame();
-            return null;   
-        }
         hero = new Hero(name, heroClass);
+        if (!heroService.validateHero(hero)){
+            view.displayMessage("Invalid hero");
+            System.exit(0);
+        }
         hero.saveHero();
         return hero;
     }

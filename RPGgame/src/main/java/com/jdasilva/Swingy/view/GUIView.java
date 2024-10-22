@@ -312,7 +312,7 @@ public class GUIView extends JFrame {
                 return name.trim();
             }else{
                 JOptionPane.showMessageDialog(this, "Invalid name. Please enter a valid name", "Invalid Name", JOptionPane.ERROR_MESSAGE);
-            }   
+            }  
         }
     }
     

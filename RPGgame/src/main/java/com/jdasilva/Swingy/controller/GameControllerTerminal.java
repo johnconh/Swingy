@@ -6,6 +6,7 @@ import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.hero.HeroClass;
 import com.jdasilva.Swingy.model.map.Gamemap;
 import com.jdasilva.Swingy.view.ConsoleView;
+import com.jdasilva.Swingy.model.validator.Validate;
 
 public class GameControllerTerminal extends GameControllerBase {
    private ConsoleView view;
@@ -27,6 +28,10 @@ public class GameControllerTerminal extends GameControllerBase {
         String name = view.getHeroName();
         HeroClass heroClass = view.getHeroClass();
         hero = new Hero(name, heroClass);
+        if(!Validate.validateHero(hero)){
+            view.displayMessage("Invalid hero name or class");
+            close();
+        }
         hero.saveHero();
         return hero;
     }

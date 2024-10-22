@@ -8,24 +8,56 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 public class Hero {
+
     private int id;
+
+    @NotNull(message = "Name cannot be null")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
     private String name;
+
+    @NotNull(message = "Hero class cannot be null")
     private HeroClass heroClass;
+
+    @Min(value = 1, message = "Level must be at least 1")
+    @Max(value = 6, message = "Level must be at most 6")
     private int level;
+
+    @Min(value = 0, message = "Experience must be at least 0")
     private int experience;
+
+    @Min(value = 0, message = "Attack must be at least 0")
+    @Max(value = 100, message = "Attack must be at most 100")
     private int attack;
+
+    @Min(value = 0, message = "Defense must be at least 0")
+    @Max(value = 100, message = "Defense must be at most 100")
     private int defense;
+
+    @Min(value = 0, message = "Hit points must be at least 0")
+    @Max(value = 2000, message = "Hit points must be at most 2000")
     private int hitPoints;
+
+    @Min(value = 0, message = "Life must be at least 0")
+    @Max(value = 2000, message = "Life must be at most 2000")
     private int life;
+
     private Artifact weapon;
     private Artifact armor;
     private Artifact helm;
     private String image;
+
+    @NotNull(message = "URL cannot be null")
     private String URL;
+    @NotNull(message = "DB_NAME cannot be null")
     private String DB_NAME;
+    @NotNull(message = "USER cannot be null")
     private String USER;
+    @NotNull(message = "PASSWORD cannot be null")
     private String PASSWORD;
 
     public Hero(String name, HeroClass heroClass) {

@@ -7,6 +7,7 @@ import com.jdasilva.Swingy.model.enemy.EnemyFactoy;
 import com.jdasilva.Swingy.model.hero.ArtifactManager;
 import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.map.Gamemap;
+import com.jdasilva.Swingy.model.validator.Validate;
 
 public abstract class GameControllerBase {
     protected Hero hero;
@@ -94,7 +95,15 @@ public abstract class GameControllerBase {
         if(map.moveHero(direction)){
             if(enemyFound()){
                 Enemy enemy = EnemyFactoy.getEnemy(enemyFactoy);
+                if(!Validate.validateEnemy(enemy)){
+                    System.err.println("Invalid enemy: " + enemy.getName());
+                    System.exit(0);
+                }
                 enemy.initializeArtifacts(hero, new ArtifactManager());
+                if(Validate.validateArtifact(enemy.getArtifact())){
+                    System.err.println("Invalid artifact: " + enemy.getArtifact().getName());
+                    System.exit(0);
+                }
                 battle(enemy);
             }
             return true;
