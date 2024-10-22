@@ -100,6 +100,7 @@ public class GameControllerTerminal extends GameControllerBase {
                 enemy.takeDamage(enemydamage);
                 view.displayMessage("You have inflicted " + enemydamage + " damage to " + enemy.getName());
                 if(enemy.isDead()){
+                    enemy.resetLife();
                     break;
                 }else{
                     int herodamage = Math.max(0, enemy.getAttack() - hero.getDefense());
@@ -117,11 +118,8 @@ public class GameControllerTerminal extends GameControllerBase {
 
         if(!hero.isDead()){
             view.displayMessage("You have defeated " + enemy.getName());
-            enemy.resetLife();
             if(hero.setExperience(enemy.getExperience()))
-            {
                 view.levelup(hero);
-            }
             if(artifactFound()){
                 Artifact artifact = enemy.getArtifact();
                 view.showArtifactFound(artifact);
