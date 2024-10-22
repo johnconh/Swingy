@@ -10,7 +10,7 @@ import com.jdasilva.Swingy.model.validator.Validate;
 
 public class GameControllerGUI  extends GameControllerBase{
     private GUIView view;
-    private Validate heroService = new Validate();
+
 
     public GameControllerGUI(){
         super(); 
@@ -36,7 +36,7 @@ public class GameControllerGUI  extends GameControllerBase{
         String name = view.getHeroName();
         HeroClass heroClass = view.getHeroClass();
         hero = new Hero(name, heroClass);
-        if (!heroService.validateHero(hero)){
+        if (!Validate.validateHero(hero)){
             view.displayMessage("Invalid hero");
             System.exit(0);
         }

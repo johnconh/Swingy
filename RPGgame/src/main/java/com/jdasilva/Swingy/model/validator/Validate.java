@@ -2,7 +2,7 @@ package com.jdasilva.Swingy.model.validator;
 
 import com.jdasilva.Swingy.model.hero.Hero;
 import com.jdasilva.Swingy.model.hero.Artifact;
-import com.jdasilva.Swingy.model.enemy.Enemy;;
+import com.jdasilva.Swingy.model.enemy.Enemy;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
