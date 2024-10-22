@@ -27,8 +27,6 @@ public class Artifact {
         this.attack = attack;
         this.defense = defense;
         this.hitPoints = hitPoints;
-
-        
     }
 
     public String getName() {
