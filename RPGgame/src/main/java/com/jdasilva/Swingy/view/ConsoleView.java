@@ -118,6 +118,11 @@ public class ConsoleView {
             System.out.println("Create");
             System.out.println("Load");
             String choice = scanner.nextLine();
+            if(choice.equalsIgnoreCase("exit"))
+            {
+                closeScanner();
+                System.exit(0);
+            }
             if (choice.equalsIgnoreCase("Create") || choice.equalsIgnoreCase("Load"))
                 return choice;
             else
@@ -168,6 +173,10 @@ public class ConsoleView {
 
     public int loadHeroFromDB(){
         List<Hero> heroes = Hero.getAllHeroes();
+        if (heroes.isEmpty()){
+            System.out.println("<<< No heroes found >>>");
+            return -1;
+        }
         showHeroList(heroes);
         int choice = -1;
         do{

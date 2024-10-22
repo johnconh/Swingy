@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 
 public class databaseManager {
     
-    private static final Dotenv dotenv = Dotenv.configure().directory("./.env").load();
+    private static final Dotenv dotenv = Dotenv.configure().directory("../.env").load();
     private static final String URL = "jdbc:postgresql://localhost:5432/";
     private static final String DB_NAME =  dotenv.get("POSTGRES_DB");
     private static final String USER = dotenv.get("POSTGRES_USER");

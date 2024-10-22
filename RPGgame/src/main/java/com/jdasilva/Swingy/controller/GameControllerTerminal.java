@@ -35,7 +35,7 @@ public class GameControllerTerminal extends GameControllerBase {
     protected Hero selectLoadHero(){
         int file = view.loadHeroFromDB();
         if(file == - 1){
-            view.displayMessage("No file selected");
+            view.displayMessage("<<< No file selected >>>");
             return null;
         }
         return Hero.loadHero(file);
@@ -117,6 +117,7 @@ public class GameControllerTerminal extends GameControllerBase {
 
         if(!hero.isDead()){
             view.displayMessage("You have defeated " + enemy.getName());
+            enemy.resetLife();
             if(hero.setExperience(enemy.getExperience()))
             {
                 view.levelup(hero);
