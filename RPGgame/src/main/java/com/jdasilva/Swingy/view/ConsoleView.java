@@ -68,6 +68,8 @@ public class ConsoleView {
     }
 
     public String getInput(){
+        if(!scanner.hasNextLine())
+            System.exit(0);
         return scanner.nextLine();
     }
 
@@ -117,7 +119,7 @@ public class ConsoleView {
             System.out.println("Do you want to create a new hero or load a saved hero?");
             System.out.println("Create");
             System.out.println("Load");
-            String choice = scanner.nextLine();
+            String choice = getInput();
             if(choice.equalsIgnoreCase("exit"))
             {
                 closeScanner();
@@ -133,7 +135,7 @@ public class ConsoleView {
     public String getHeroName(){
         while(true){
             System.out.println("Enter your hero name: ");
-            String name = scanner.nextLine().trim();
+            String name = getInput().trim();
             if(!name.isEmpty()){
                 return name;    
             }
@@ -146,12 +148,17 @@ public class ConsoleView {
             System.out.println("1. Warrior");
             System.out.println("2. Paladin");
             System.out.println("3. Rogue");
-
+            String input = getInput().trim();
+            if (input.isEmpty())
+            {
+                System.out.println("Invalid input. Please enter a number between 1 and 3");
+                continue;
+            }
             if(scanner.hasNextInt()){
-                int choice = scanner.nextInt();
-                scanner.nextLine();
+                int choice = getInput().charAt(0) - '0';
                 if(choice < 1 || choice > 3){
                     System.out.println("Invalid input. Please enter a number between 1 and 3");
+                    scanner.nextLine();
                     continue;
                 }
                 switch(choice){
