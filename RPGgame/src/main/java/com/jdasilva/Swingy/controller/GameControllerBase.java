@@ -100,7 +100,7 @@ public abstract class GameControllerBase {
                     System.exit(0);
                 }
                 enemy.initializeArtifacts(hero, new ArtifactManager());
-                if(Validate.validateArtifact(enemy.getArtifact())){
+                if(!Validate.validateArtifact(enemy.getArtifact())){
                     System.err.println("Invalid artifact: " + enemy.getArtifact().getName());
                     System.exit(0);
                 }
