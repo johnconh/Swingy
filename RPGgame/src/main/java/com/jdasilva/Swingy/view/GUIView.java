@@ -321,7 +321,7 @@ public class GUIView extends JFrame {
         int choice = JOptionPane.showOptionDialog(this, "Choose your hero class", "Hero Class", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
         if (choice == JOptionPane.CLOSED_OPTION){
-            system.exit(0);
+            System.exit(0);
         }
         switch(choice){
             case 0:

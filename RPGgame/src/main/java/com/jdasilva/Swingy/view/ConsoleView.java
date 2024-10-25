@@ -149,12 +149,8 @@ public class ConsoleView {
             System.out.println("2. Paladin");
             System.out.println("3. Rogue");
             String input = getInput().trim();
-            if (input.isEmpty())
-            {
-                System.out.println("Invalid input. Please enter a number between 1 and 3");
-                continue;
-            }
-            if(input.length() == 1 && Character.isDigit(input.charAt(0))){
+
+            if(!input.isEmpty() && input.length() == 1 && Character.isDigit(input.charAt(0))){
                 int choice = Integer.parseInt(input);
                 if(choice < 1 || choice > 3){
                     System.out.println("Invalid input. Please enter a number between 1 and 3");
