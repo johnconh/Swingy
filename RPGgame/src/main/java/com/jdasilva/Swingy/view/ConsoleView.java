@@ -154,8 +154,8 @@ public class ConsoleView {
                 System.out.println("Invalid input. Please enter a number between 1 and 3");
                 continue;
             }
-            if(scanner.hasNextInt()){
-                int choice = getInput().charAt(0) - '0';
+            if(input.length() == 1 && Character.isDigit(input.charAt(0))){
+                int choice = Integer.parseInt(input);
                 if(choice < 1 || choice > 3){
                     System.out.println("Invalid input. Please enter a number between 1 and 3");
                     scanner.nextLine();
