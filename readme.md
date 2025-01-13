@@ -32,3 +32,4 @@ El propósito de este proyecto es demostrar la implementación de la arquitectur
    ```bash
    git clone https://github.com/tu-usuario/swingy.git
    cd swingy
+   make
